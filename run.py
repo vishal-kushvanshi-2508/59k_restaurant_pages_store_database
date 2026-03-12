@@ -12,4 +12,4 @@ def total(total,parts):
 
 
 print("run file exiqure ")
-total(60000,10)
+total(60000,6)

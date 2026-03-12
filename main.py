@@ -1,7 +1,7 @@
 
 import sys
 import time
-from turtledemo.penrose import start
+# from turtledemo.penrose import start
 
 from restaurant_database import create_db, create_table, insert_data_in_table
 from extract_data_from_zip_file import read_files_zip, extract_grab_food_data
@@ -22,7 +22,7 @@ def main():
 
         restaurant_detail_list.append(result)
 
-        if len(restaurant_detail_list) >= 500:  # large batch
+        if len(restaurant_detail_list) >= 1000:  # large batch
             insert_data_in_table(list_data=restaurant_detail_list)
             restaurant_detail_list.clear()
 
