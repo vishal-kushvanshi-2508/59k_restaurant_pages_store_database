@@ -22,7 +22,7 @@ def main():
 
         restaurant_detail_list.append(result)
 
-        if len(restaurant_detail_list) >= 1000:  # large batch
+        if len(restaurant_detail_list) >= 2000:  # large batch
             insert_data_in_table(list_data=restaurant_detail_list)
             restaurant_detail_list.clear()
 
