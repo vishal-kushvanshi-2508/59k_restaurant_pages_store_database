@@ -3,18 +3,40 @@
 import os
 import json
 import gzip
+from restaurant_database import create_db, create_table, insert_data_in_table
 
-def read_files_zip(path: str, start, end):
 
-    try:
-        files = os.listdir(path)
-        files.sort()
-        for file in files[start:end]:
+
+
+def read_files_zip(files_chunk, path):
+    for file in files_chunk:
+        try:
             filename = os.path.join(path, file)
             with gzip.open(filename, "rt", encoding="utf-8") as f:
                 yield json.load(f)
-    except Exception as e:
-        print("Error in func:", read_files_zip.__name__, '\nError: ', e)
+        except Exception as e:
+            print("Error in read_files_zip:", e)
+
+
+def process_chunk(files_chunk, path):
+    restaurant_detail_list = []
+
+    for raw_dict in read_files_zip(files_chunk, path) :
+        result = extract_grab_food_data(raw_dict)
+        if not result:
+            continue
+
+        restaurant_detail_list.append(result)
+
+        if len(restaurant_detail_list) >= 2000:
+            insert_data_in_table(list_data=restaurant_detail_list)
+            restaurant_detail_list.clear()
+
+    # insert remaining
+    if restaurant_detail_list:
+        insert_data_in_table(list_data=restaurant_detail_list)
+
+
 
 
 def extract_grab_food_data(single_page_data):
@@ -70,3 +92,20 @@ def extract_grab_food_data(single_page_data):
     restaurant_dict["restaurant_detail"] = grab_food_dict
     restaurant_dict["Menu_Items"] = products_list
     return restaurant_dict
+
+
+
+
+# first method of code ..
+
+# def read_files_zip(path: str, start, end):
+#
+#     try:
+#         files = os.listdir(path)
+#         files.sort()
+#         for file in files[start:end]:
+#             filename = os.path.join(path, file)
+#             with gzip.open(filename, "rt", encoding="utf-8") as f:
+#                 yield json.load(f)
+#     except Exception as e:
+#         print("Error in func:", read_files_zip.__name__, '\nError: ', e)

@@ -271,11 +271,11 @@ def insert_data_in_table(list_data : list):
 
         try:
             batch_count = data_commit_batches_wise(parent_sql, rest_values)
-            logger.info(f"Parent batches executed count={batch_count}")
-            print("batch size  parent : ", batch_count)
+            # logger.info(f"Parent batches executed count={batch_count}")
+            # print("batch size  parent : ", batch_count)
             batch_count = data_commit_batches_wise(child_sql, menu_values)
-            logger.info(f"Child batches executed count={batch_count}")
-            print("batch size  child : ", batch_count)
+            # logger.info(f"Child batches executed count={batch_count}")
+            # print("batch size  child : ", batch_count)
         except Exception as e:
             print(f"data not divide in batch . Error: ")
         # cursor.close()
